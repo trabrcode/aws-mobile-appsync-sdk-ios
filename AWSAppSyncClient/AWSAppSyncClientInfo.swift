@@ -12,6 +12,7 @@ import Foundation
 @available(*, deprecated, message: "Use a AWSAppSyncServiceConfigProviding instance like AWSAppSyncServiceConfig")
 public class AWSAppSyncClientInfo {
     public let apiUrl: String
+    public let realtimeApiUrl: String?
     public let region: String
     public let authType: String
     public let apiKey: String
@@ -26,6 +27,7 @@ public class AWSAppSyncClientInfo {
         do {
             let info = try AWSAppSyncServiceConfig(forKey: key)
             apiUrl = info.endpoint.absoluteString
+            realtimeApiUrl = info.realtimeEndpoint?.absoluteString
             region = try AWSAppSyncClientInfo.getRawRegionStringFromConfigFile(forKey: key)
             authType = info.authType.rawValue
             apiKey = info.apiKey ?? ""

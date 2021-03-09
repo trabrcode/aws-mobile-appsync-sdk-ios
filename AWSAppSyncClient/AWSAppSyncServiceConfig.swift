@@ -10,6 +10,7 @@ import Foundation
 public protocol AWSAppSyncServiceConfigProvider {
     /// The API endpoint
     var endpoint: URL { get }
+    var realtimeEndpoint: URL? { get }
 
     /// The AWS region of the API endpoint
     var region: AWSRegionType { get }
@@ -28,6 +29,7 @@ public protocol AWSAppSyncServiceConfigProvider {
 /// Client-side configurations of an AWSAppSync service instance
 public struct AWSAppSyncServiceConfig: AWSAppSyncServiceConfigProvider {
     public let endpoint: URL
+    public let realtimeEndpoint: URL?
     public let region: AWSRegionType
     public let authType: AWSAppSyncAuthType
     public let apiKey: String?
@@ -56,6 +58,15 @@ public struct AWSAppSyncServiceConfig: AWSAppSyncServiceConfigProvider {
                 throw AWSAppSyncServiceConfigError.invalidAPIURL
         }
         self.endpoint = endpoint
+        
+        if
+            let realtimeApiURLString = configForKey[AWSConfigurationFile.Keys.realtimeApiURL] as? String,
+            let realtimeEndpoint = URL(string: realtimeApiURLString)
+        {
+            self.realtimeEndpoint = realtimeEndpoint
+        } else {
+            self.realtimeEndpoint = nil
+        }
 
         guard
             let regionString = configForKey[AWSConfigurationFile.Keys.region] as? String

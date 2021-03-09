@@ -16,7 +16,8 @@ struct AWSConfigurationFile {
 
         /// The endpoint URL for the AppSync API described by this configuration
         static let apiURL = "ApiUrl"
-
+        static let realtimeApiURL = "RealtimeApiUrl"
+        
         /// The AWS region of the AppSync API. The value must be a string that can be resolved to an `AWSRegionType`
         static let region = "Region"
 
